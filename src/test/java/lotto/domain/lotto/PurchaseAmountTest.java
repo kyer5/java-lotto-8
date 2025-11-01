@@ -28,4 +28,14 @@ class PurchaseAmountTest {
                 .isThrownBy(() -> new PurchaseAmount(input))
                 .withMessageContaining("[ERROR] 로또 구입은 최소 1,000원부터 최대 100,000원까지 가능합니다.");
     }
+
+    @DisplayName("1,000원 단위로 구입하지 않으면 예외가 발생한다.")
+    @ParameterizedTest(name = "{index}. value = {0}")
+    @ValueSource(strings = {"1001", "14020", "54300"})
+    void 로또_구입_금액이_천원_단위가_아니면_예외가_발생한다(String input) {
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new PurchaseAmount(input))
+                .withMessageContaining("[ERROR] 로또는 1,000원 단위로 구입할 수 있습니다.");
+    }
 }
