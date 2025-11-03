@@ -1,6 +1,7 @@
 package lotto.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import lotto.domain.lotto.Lotto;
 import lotto.domain.lotto.LottoIssuer;
@@ -9,6 +10,7 @@ import lotto.domain.lotto.LottoTicket;
 import lotto.domain.lotto.PurchaseAmount;
 import lotto.domain.winning.Bonus;
 import lotto.domain.winning.WinningLotto;
+import lotto.domain.winning.value.Rank;
 import lotto.view.Input;
 import lotto.view.Output;
 
@@ -30,6 +32,8 @@ public class LottoController {
         output.printIssuedLottos(lottoTicket);
 
         WinningLotto winningLotto = register();
+        Map<Rank, Integer> result = winningLotto.checkWinningResult(lottoTicket);
+        output.printWinningStatistics(result);
     }
 
     private PurchaseAmount purchase() {
