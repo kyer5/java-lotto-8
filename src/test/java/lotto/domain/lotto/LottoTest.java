@@ -35,4 +35,16 @@ class LottoTest {
                 .withMessageContaining("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
 
     }
+
+    @DisplayName("로또 번호가 45보다 큰 값이 포함된 경우 예외가 발생한다.")
+    @Test
+    void 로또_번호가_최대값_초과이면_예외가_발생한다() {
+        // given
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 46);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Lotto(numbers))
+                .withMessageContaining("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
+    }
 }
