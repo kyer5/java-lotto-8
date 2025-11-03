@@ -9,6 +9,7 @@ import lotto.domain.lotto.LottoNumbersGenerator;
 import lotto.domain.lotto.LottoTicket;
 import lotto.domain.lotto.PurchaseAmount;
 import lotto.domain.winning.Bonus;
+import lotto.domain.winning.Profit;
 import lotto.domain.winning.WinningLotto;
 import lotto.domain.winning.value.Rank;
 import lotto.view.Input;
@@ -34,6 +35,9 @@ public class LottoController {
         WinningLotto winningLotto = register();
         Map<Rank, Integer> result = winningLotto.checkWinningResult(lottoTicket);
         output.printWinningStatistics(result);
+
+        Profit profit = new Profit(purchaseAmount, result);
+        output.printProfitRate(profit.getProfitRate());
     }
 
     private PurchaseAmount purchase() {

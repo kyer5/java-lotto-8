@@ -30,4 +30,9 @@ public class Profit {
         double rate = ((double) totalWinningAmount / purchaseAmount) * PERCENTAGE_MULTIPLIER;
         return Math.round(rate * ROUNDING_SCALE) / (double) ROUNDING_SCALE;
     }
+
+
+    public double getProfitRate() {
+        return profitRate;
+    }
 }
