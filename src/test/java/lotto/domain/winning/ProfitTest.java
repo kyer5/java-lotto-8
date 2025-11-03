@@ -27,4 +27,18 @@ class ProfitTest  {
         // then
         assertThat(profit).extracting("totalWinningAmount").isEqualTo(2_003_015_000L);
     }
+
+    @DisplayName("구입 금액 대비 당첨금 비율로 수익률을 계산한다.")
+    @Test
+    void 구입_금액_대비_당첨금_비율로_수익률을_계산한다() {
+        // given
+        Map<Rank, Integer> result = Map.of(Rank.FOURTH, 1);
+        PurchaseAmount purchaseAmount = new PurchaseAmount("100000");
+
+        // when
+        Profit profit = new Profit(purchaseAmount, result);
+
+        // then
+        assertThat(profit).extracting("profitRate").isEqualTo(50.0);
+    }
 }
