@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.util.List;
+import java.util.Map;
 import lotto.domain.lotto.Lotto;
+import lotto.domain.lotto.LottoTicket;
 import lotto.domain.winning.value.Rank;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -62,5 +64,35 @@ class WinningLottoTest {
 
         // then
         assertThat(result).isEqualTo(testCase.expected());
+    }
+
+    @DisplayName("당첨 결과에 따른 Rank별 개수를 올바르게 집계한다.")
+    @Test
+    void 당첨_결과의_Rank별_개수를_올바르게_집계한다() {
+        // given
+        List<Lotto> lottos = List.of(
+                new Lotto(List.of(1, 2, 3, 4, 5, 6)),
+                new Lotto(List.of(1, 2, 3, 4, 5, 7)),
+                new Lotto(List.of(1, 2, 3, 4, 5, 45)),
+                new Lotto(List.of(1, 2, 3, 4, 6, 45)),
+                new Lotto(List.of(1, 2, 3, 4, 40, 41)),
+                new Lotto(List.of(1, 2, 3, 40, 41, 42)),
+                new Lotto(List.of(1, 2, 40, 41, 42, 43))
+        );
+
+        LottoTicket ticket = new LottoTicket(lottos);
+
+        // when
+        Map<Rank, Integer> result = testWinningLotto.checkWinningResult(ticket);
+
+        // then
+        assertThat(result).containsExactlyInAnyOrderEntriesOf(Map.of(
+                Rank.FIRST, 1,
+                Rank.SECOND, 1,
+                Rank.THIRD, 2,
+                Rank.FOURTH, 1,
+                Rank.FIFTH, 1,
+                Rank.NONE, 1
+        ));
     }
 }
