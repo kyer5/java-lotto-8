@@ -1,5 +1,6 @@
 package lotto.domain.winning;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class BonusTest {
+
+    @DisplayName("보너스 번호가 유효한 값이면 Bonus 객체가 생성된다.")
+    @ParameterizedTest(name = "{index}. value = {0}")
+    @ValueSource(strings = {"1", "13", "45"})
+    void 보너스_번호가_유효한_값이면_객체가_생성된다(String input) {
+        // when & then
+        assertThatCode(() -> new Bonus(input))
+                .doesNotThrowAnyException();
+    }
 
     @DisplayName("숫자(정수)가 아닌 문자를 입력하면 예외가 발생한다.")
     @ParameterizedTest(name = "{index}. value = {0}")
