@@ -1,6 +1,8 @@
 package lotto.domain.winning.value;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public enum Rank {
 
@@ -29,6 +31,17 @@ public enum Rank {
                 )
                 .findFirst()
                 .orElse(NONE);
+    }
+
+    public static List<Rank> getWinningRanks() {
+        return Arrays.stream(values())
+                .sorted(Comparator.reverseOrder())
+                .filter(rank -> rank != NONE)
+                .toList();
+    }
+
+    public int getMatchCount() {
+        return matchCount;
     }
 
     public int getWinningAmount() {
