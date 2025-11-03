@@ -37,7 +37,11 @@ public class Output {
     public void printProfitRate(double profitRate) {
         System.out.printf(PROFIT_RATE_FORMAT, profitRate);
     }
-    
+
+    public void printErrorMessage(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
     private String formatLotto(Lotto lotto) {
         return lotto.getSortedNumbers().stream()
                 .map(String::valueOf)
