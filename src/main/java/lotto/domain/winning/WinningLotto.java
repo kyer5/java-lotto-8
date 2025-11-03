@@ -1,6 +1,9 @@
 package lotto.domain.winning;
 
+import java.util.HashMap;
+import java.util.Map;
 import lotto.domain.lotto.Lotto;
+import lotto.domain.lotto.LottoTicket;
 import lotto.domain.winning.value.Rank;
 
 public class WinningLotto {
@@ -14,6 +17,15 @@ public class WinningLotto {
         this.winningLotto = winningLotto;
         validateBonusNumberDuplicate(bonus);
         this.bonus = bonus;
+    }
+
+    public Map<Rank, Integer> checkWinningResult(LottoTicket lottoTicket) {
+        Map<Rank, Integer> result = new HashMap<>();
+        for (Lotto lotto : lottoTicket.getLottos()) {
+            Rank rank = matchRank(lotto);
+            result.put(rank, result.getOrDefault(rank, 0) + 1);
+        }
+        return result;
     }
 
     public Rank matchRank(Lotto lotto) {
