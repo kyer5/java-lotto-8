@@ -11,6 +11,7 @@ public class Output {
     private static final String PURCHASE_COUNT_FORMAT = "%d개를 구매했습니다.";
     private static final String WINNING_STATISTICS_MESSAGE = "당첨 통계";
     private static final String DIVIDER = "---";
+    private static final String PROFIT_RATE_FORMAT = "총 수익률은 %.1f%%입니다.";
     private static final String WINNING_STATISTICS_FORMAT = "%d개 일치 (%s원) - %d개";
     private static final String WINNING_STATISTICS_WITH_BONUS_FORMAT = "%d개 일치, 보너스 볼 일치 (%s원) - %d개";
 
@@ -33,6 +34,10 @@ public class Output {
         );
     }
 
+    public void printProfitRate(double profitRate) {
+        System.out.printf(PROFIT_RATE_FORMAT, profitRate);
+    }
+    
     private String formatLotto(Lotto lotto) {
         return lotto.getSortedNumbers().stream()
                 .map(String::valueOf)
