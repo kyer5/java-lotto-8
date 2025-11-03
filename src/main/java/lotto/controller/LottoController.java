@@ -1,10 +1,14 @@
 package lotto.controller;
 
+import java.util.List;
 import java.util.function.Supplier;
+import lotto.domain.lotto.Lotto;
 import lotto.domain.lotto.LottoIssuer;
 import lotto.domain.lotto.LottoNumbersGenerator;
 import lotto.domain.lotto.LottoTicket;
 import lotto.domain.lotto.PurchaseAmount;
+import lotto.domain.winning.Bonus;
+import lotto.domain.winning.WinningLotto;
 import lotto.view.Input;
 import lotto.view.Output;
 
@@ -24,6 +28,8 @@ public class LottoController {
         PurchaseAmount purchaseAmount = purchase();
         LottoTicket lottoTicket = issue(purchaseAmount);
         output.printIssuedLottos(lottoTicket);
+
+        WinningLotto winningLotto = register();
     }
 
     private PurchaseAmount purchase() {
@@ -36,6 +42,28 @@ public class LottoController {
     private LottoTicket issue(PurchaseAmount purchaseAmount) {
         LottoIssuer lottoIssuer = new LottoIssuer(purchaseAmount, lottoNumbersGenerator);
         return lottoIssuer.generateLottoTicket();
+    }
+
+    private WinningLotto register() {
+        Lotto winningLotto = registerWinningNumbers();
+        return retryUntilValid(() -> {
+            Bonus bonus = registerBonusNumber();
+            return new WinningLotto(winningLotto, bonus);
+        });
+    }
+
+    private Lotto registerWinningNumbers() {
+        return retryUntilValid(() -> {
+            List<Integer> winningNumbers = input.readWinningNumbers();
+            return new Lotto(winningNumbers);
+        });
+    }
+
+    private Bonus registerBonusNumber() {
+        return retryUntilValid(() -> {
+            String number = input.readBonusNumber();
+            return new Bonus(number);
+        });
     }
 
     private <T> T retryUntilValid(Supplier<T> supplier) {
