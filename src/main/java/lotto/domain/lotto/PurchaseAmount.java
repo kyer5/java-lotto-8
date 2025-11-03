@@ -37,4 +37,8 @@ public class PurchaseAmount {
             throw new IllegalArgumentException(PURCHASE_AMOUNT_INVALID_UNIT);
         }
     }
+
+    public int calculateLottoTicketQuantity() {
+        return amount / PURCHASE_AMOUNT_UNIT;
+    }
 }
