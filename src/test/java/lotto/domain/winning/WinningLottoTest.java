@@ -42,7 +42,7 @@ class WinningLottoTest {
     @Test
     void 보너스_번호가_당첨_번호와_중복되면_예외가_발생한다() {
         // given
-        List<Integer> numbers = List.of(1,2,3,4,5,6);
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6);
         Lotto winningLotto = new Lotto(numbers);
         Bonus bonus = new Bonus("6");
 
@@ -79,14 +79,13 @@ class WinningLottoTest {
                 new Lotto(List.of(1, 2, 3, 40, 41, 42)),
                 new Lotto(List.of(1, 2, 40, 41, 42, 43))
         );
-
-        LottoTicket ticket = new LottoTicket(lottos);
+        LottoTicket lottoTicket = new LottoTicket(lottos);
 
         // when
-        Map<Rank, Integer> result = testWinningLotto.checkWinningResult(ticket);
+        WinningResult winningResult = testWinningLotto.checkWinningResult(lottoTicket);
 
         // then
-        assertThat(result).containsExactlyInAnyOrderEntriesOf(Map.of(
+        assertThat(winningResult.asMap()).containsExactlyInAnyOrderEntriesOf(Map.of(
                 Rank.FIRST, 1,
                 Rank.SECOND, 1,
                 Rank.THIRD, 2,
@@ -94,5 +93,12 @@ class WinningLottoTest {
                 Rank.FIFTH, 1,
                 Rank.NONE, 1
         ));
+
+        assertThat(winningResult.countOf(Rank.FIRST)).isEqualTo(1);
+        assertThat(winningResult.countOf(Rank.SECOND)).isEqualTo(1);
+        assertThat(winningResult.countOf(Rank.THIRD)).isEqualTo(2);
+        assertThat(winningResult.countOf(Rank.FOURTH)).isEqualTo(1);
+        assertThat(winningResult.countOf(Rank.FIFTH)).isEqualTo(1);
+        assertThat(winningResult.countOf(Rank.NONE)).isEqualTo(1);
     }
 }

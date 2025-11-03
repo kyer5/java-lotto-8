@@ -1,8 +1,6 @@
 package lotto.domain.winning;
 
-import java.util.Map;
 import lotto.domain.lotto.PurchaseAmount;
-import lotto.domain.winning.value.Rank;
 
 public class Profit {
 
@@ -13,24 +11,16 @@ public class Profit {
     private final long purchaseAmount;
     private final double profitRate;
 
-    public Profit(PurchaseAmount purchaseAmount, Map<Rank, Integer> result) {
-        this.totalWinningAmount = calculateTotalWinningAmount(result);
+    public Profit(PurchaseAmount purchaseAmount, WinningResult winningResult) {
+        this.totalWinningAmount = winningResult.totalWinningAmount();
         this.purchaseAmount = purchaseAmount.getAmount();
         this.profitRate = calculateProfitRate();
-    }
-
-    private long calculateTotalWinningAmount(Map<Rank, Integer> result) {
-        return result.entrySet().stream()
-                .mapToLong(entry ->
-                        (long) entry.getKey().getWinningAmount() * entry.getValue())
-                .sum();
     }
 
     private double calculateProfitRate() {
         double rate = ((double) totalWinningAmount / purchaseAmount) * PERCENTAGE_MULTIPLIER;
         return Math.round(rate * ROUNDING_SCALE) / (double) ROUNDING_SCALE;
     }
-
 
     public double getProfitRate() {
         return profitRate;

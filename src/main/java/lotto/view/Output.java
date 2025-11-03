@@ -1,9 +1,9 @@
 package lotto.view;
 
-import java.util.Map;
 import java.util.stream.Collectors;
 import lotto.domain.lotto.Lotto;
 import lotto.domain.lotto.LottoTicket;
+import lotto.domain.winning.WinningResult;
 import lotto.domain.winning.value.Rank;
 
 public class Output {
@@ -25,13 +25,15 @@ public class Output {
         System.out.println(lottosOutput);
     }
 
-    public void printWinningStatistics(Map<Rank, Integer> result) {
-        System.out.println("\n" + WINNING_STATISTICS_MESSAGE);
+    public void printWinningStatistics(WinningResult winningResult) {
+        System.out.println(WINNING_STATISTICS_MESSAGE);
         System.out.println(DIVIDER);
 
-        Rank.getWinningRanks().forEach(rank ->
-                System.out.println(formatWinningStatistics(rank, result.getOrDefault(rank, 0)))
-        );
+        for (Rank rank : winningResult.ranksForStatistics()) {
+            int count = winningResult.countOf(rank);
+            String formatted = formatWinningStatistics(rank, count);
+            System.out.println(formatted);
+        }
     }
 
     public void printProfitRate(double profitRate) {
@@ -49,12 +51,11 @@ public class Output {
     }
 
     private String formatWinningStatistics(Rank rank, int count) {
+        String amount = String.format("%,d", rank.getWinningAmount());
         if (rank == Rank.SECOND) {
-            return String.format(WINNING_STATISTICS_WITH_BONUS_FORMAT,
-                    rank.getMatchCount(), formatMoney(rank.getWinningAmount()), count);
+            return String.format(WINNING_STATISTICS_WITH_BONUS_FORMAT, rank.getMatchCount(), amount, count);
         }
-        return String.format(WINNING_STATISTICS_FORMAT,
-                rank.getMatchCount(), formatMoney(rank.getWinningAmount()), count);
+        return String.format(WINNING_STATISTICS_FORMAT, rank.getMatchCount(), amount, count);
     }
 
     private String formatMoney(int amount) {
