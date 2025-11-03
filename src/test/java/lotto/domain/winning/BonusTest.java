@@ -18,4 +18,13 @@ class BonusTest {
                 .withMessageContaining("[ERROR] 보너스 번호는 숫자(정수) 하나만 입력할 수 있습니다.");
     }
 
+    @DisplayName("보너스 번호가 1보다 작은 경우 예외가 발생한다.")
+    @ParameterizedTest(name = "{index}. value = {0}")
+    @ValueSource(strings = {"-1", "0"})
+    void 보너스_번호가_최소값_미만이면_예외가_발생한다(String input) {
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Bonus(input))
+                .withMessageContaining("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
+    }
 }
