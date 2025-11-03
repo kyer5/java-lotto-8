@@ -1,6 +1,7 @@
 package lotto.domain.winning;
 
 import lotto.domain.lotto.Lotto;
+import lotto.domain.winning.value.Rank;
 
 public class WinningLotto {
 
@@ -13,6 +14,22 @@ public class WinningLotto {
         this.winningLotto = winningLotto;
         validateBonusNumberDuplicate(bonus);
         this.bonus = bonus;
+    }
+
+    public Rank matchRank(Lotto lotto) {
+        int matchCount = countMatchingNumbers(lotto);
+        boolean isMatchBonus = isMatchBonusNumber(lotto);
+        return Rank.find(matchCount, isMatchBonus);
+    }
+
+    private int countMatchingNumbers(Lotto lotto) {
+        return (int) lotto.getNumbers().stream()
+                .filter(winningLotto.getNumbers()::contains)
+                .count();
+    }
+
+    private boolean isMatchBonusNumber(Lotto lotto) {
+        return lotto.getNumbers().contains(bonus.getNumber());
     }
 
     private void validateBonusNumberDuplicate(Bonus bonus) {
