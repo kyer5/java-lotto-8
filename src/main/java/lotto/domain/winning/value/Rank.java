@@ -30,4 +30,8 @@ public enum Rank {
                 .findFirst()
                 .orElse(NONE);
     }
+
+    public int getWinningAmount() {
+        return winningAmount;
+    }
 }

@@ -41,4 +41,8 @@ public class PurchaseAmount {
     public int calculateLottoTicketQuantity() {
         return amount / PURCHASE_AMOUNT_UNIT;
     }
+
+    public int getAmount() {
+        return amount;
+    }
 }
