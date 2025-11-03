@@ -45,4 +45,8 @@ public class Lotto {
             throw new IllegalArgumentException(LOTTO_NUMBER_DUPLICATED);
         }
     }
+
+    public List<Integer> getNumbers() {
+        return numbers;
+    }
 }

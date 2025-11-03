@@ -29,4 +29,8 @@ public class Bonus {
             throw new IllegalArgumentException(BONUS_NUMBER_OUT_OF_RANGE);
         }
     }
+
+    public int getNumber() {
+        return number;
+    }
 }
