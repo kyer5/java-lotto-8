@@ -1,10 +1,12 @@
-package lotto;
+package lotto.domain.lotto;
 
+import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LottoTest {
@@ -21,5 +23,16 @@ class LottoTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    // TODO: 추가 기능 구현에 따른 테스트 코드 작성
+    @DisplayName("로또 번호가 1보다 작은 값이 포함된 경우 예외가 발생한다.")
+    @Test
+    void 로또_번호가_최소값_미만이면_예외가_발생한다() {
+        // given
+        List<Integer> numbers = List.of(0, 1, 2, 3, 4, 5);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Lotto(numbers))
+                .withMessageContaining("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
+
+    }
 }
